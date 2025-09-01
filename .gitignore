@@ -10,6 +10,7 @@ venv/
 
 # Chainlit runtime
 .chainlit/
+record_manager_cache.sql
 
 # Environment files
 .env
