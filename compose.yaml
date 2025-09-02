@@ -1,0 +1,14 @@
+services:
+  app:
+    build: .
+    ports:
+      - "7860:7860"
+    volumes:
+      - .:/app
+
+    # experimental
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /app

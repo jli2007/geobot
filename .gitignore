@@ -9,8 +9,9 @@ __pycache__/
 venv/
 
 # Chainlit runtime
-.chainlit/
 record_manager_cache.sql
+.chainlit/*
+!.chainlit/config.toml
 
 # Environment files
 .env
@@ -21,4 +22,3 @@ record_manager_cache.sql
 Thumbs.db
 .vscode/
 .idea/
-.files/
