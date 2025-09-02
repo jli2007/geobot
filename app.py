@@ -71,6 +71,12 @@ async def on_chat_start():
 
     retriever = doc_search.as_retriever()
     
+    # full RAG chain
+    # retriever | format_docs → fetch docs from Chroma and turn them into text.
+    # RunnablePassthrough() → pass the original question through unchanged.
+    # Pass through the prompt → fills template with context + question.
+    # Send to model (ChatOpenAI) → gets the LLM response.
+    # StrOutputParser() → extracts text from the model response.
     runnable = (
         {"context": retriever | format_docs, "question": RunnablePassthrough()}
         | prompt
@@ -110,7 +116,9 @@ async def on_message(message:cl.Message):
                 self.msg.elements.append(
                     cl.Text(name="Sources", content=sources_text, display="inline") #type: ignore
                 )
-        
+    
+    # .astream() is an asynchronous streaming method.
+    # It streams the output token-by-token (or chunk-by-chunk) as the LLM generates it, instead of waiting for the full response.
     async for chunk in runnable.astream( #type: ignore
         message.content,
         config = RunnableConfig(
